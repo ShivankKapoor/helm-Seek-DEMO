@@ -1,5 +1,5 @@
-# Use Node.js official image
-FROM node:18-alpine
+# Use Node.js official image with explicit registry
+FROM docker.io/library/node:18-alpine
 
 # Set working directory
 WORKDIR /app
