@@ -153,11 +153,17 @@ body {
 <div class="footer">Powered by Google</div>
 
 <script>
+// Redirect www to non-www for consistent cookies
+if (window.location.hostname === 'www.helmseek.com') {
+  window.location.replace('https://helmseek.com' + window.location.pathname + window.location.search);
+}
+
 // Cookie helpers
 function setCookie(name,value,days){
   let expires="";
   if(days){const d=new Date();d.setTime(d.getTime()+days*24*60*60*1000);expires="; expires="+d.toUTCString();}
-  document.cookie = name + "=" + value + expires + "; path=/";
+  // Set cookie for both www and non-www domains
+  document.cookie = name + "=" + value + expires + "; path=/; domain=.helmseek.com";
 }
 function getCookie(name){
   const cookies=document.cookie.split(";").map(c=>c.trim());
