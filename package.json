@@ -1,0 +1,22 @@
+{
+  "name": "helm-seek",
+  "version": "1.0.0",
+  "description": "A clean, minimal Google search interface",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "serve-static": "^1.15.0"
+  },
+  "keywords": [
+    "search",
+    "google",
+    "interface",
+    "minimal"
+  ],
+  "author": "Shivank Kapoor",
+  "license": "MIT"
+}
