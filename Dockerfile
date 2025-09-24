@@ -1,32 +1,22 @@
-# Use Node.js official image with explicit registry
-FROM docker.io/library/node:18-alpine
+FROM nginx:alpine
 
-# Set working directory
-WORKDIR /app
-
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install --only=production
+# Create custom nginx config for port 3003
+RUN echo 'server { \
+    listen 3003; \
+    listen [::]:3003; \
+    server_name localhost; \
+    root /usr/share/nginx/html; \
+    index index.html; \
+    location / { \
+        try_files $uri $uri/ /index.html; \
+    } \
+}' > /etc/nginx/conf.d/default.conf
 
 # Copy application files
-COPY . .
+COPY . /usr/share/nginx/html
 
-# Create non-root user for security
-RUN addgroup -g 1001 -S nodejs
-RUN adduser -S helm-seek -u 1001
-
-# Change ownership of the app directory
-RUN chown -R helm-seek:nodejs /app
-USER helm-seek
-
-# Expose port
+# Expose port 3003
 EXPOSE 3003
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:3003/ || exit 1
-
-# Start the application
-CMD ["npm", "start"]
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
